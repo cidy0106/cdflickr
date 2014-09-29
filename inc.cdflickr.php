@@ -403,11 +403,12 @@ expiration=TIMESTAMPADD(SECOND,' . $this->cache_expire . ',CURRENT_TIMESTAMP) ';
 			);
 			$this->post_before ( 'POST', $this->upload_endpoint, $args ,$this->token_secret);
 			
-			$data = array (
+			//all parameters must send by post !!!not in get
+			$args = array_merge($args, array (
 // 					'photo' => '@' . realpath ( $photo ) 
 					'photo' =>$this->curl_file(realpath ( $photo ) )
-			);
-			$response = $this->post ( sprintf ( '%s?%s', $this->upload_endpoint, http_build_query($args) ), $data );
+			));
+			$response = $this->post ( $this->upload_endpoint, $args );
 			
 			$rsp = explode ( "\n", $response );
 			foreach ( $rsp as $line ) {
@@ -438,12 +439,12 @@ expiration=TIMESTAMPADD(SECOND,' . $this->cache_expire . ',CURRENT_TIMESTAMP) ';
 					"is_family" => $is_family 
 			);
 			$this->post_before ( 'POST', $this->upload_endpoint, $args ,$this->token_secret );
-			
-			$data = array (
+			//all parameters must send by post !!!not in get
+			$args = array_merge($args,  array (
 // 					'photo' => '@' . realpath ( $photo ) 
 					'photo' =>$this->curl_file(realpath ( $photo ) )
-			);
-			$response = $this->post ( sprintf ( '%s?%s', $this->upload_endpoint, $args ), $data );
+			));
+			$response = $this->post ( $this->upload_endpoint, $args );
 			
 			$rsp = explode ( "\n", $response );
 			$rsp = explode ( "\n", $response );
@@ -471,12 +472,12 @@ expiration=TIMESTAMPADD(SECOND,' . $this->cache_expire . ',CURRENT_TIMESTAMP) ';
 					"async" => $async 
 			);
 			$this->post_before ( 'POST', $this->upload_endpoint, $args ,$this->token_secret );
-			
-			$data = array (
+			//all parameters must send by post !!!not in get
+			$args = array_merge($args,array (
 // 					'photo' => '@' . realpath ( $photo ) 
 					'photo' =>$this->curl_file(realpath ( $photo ) )
-			);
-			$response = $this->post ( sprintf ( '%s?%s', $this->replace_endpoint, $args ), $data );
+			));
+			$response = $this->post ( $this->replace_endpoint, $args );
 			
 			if ($async == 1)
 				$find = 'ticketid';
